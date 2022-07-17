@@ -178,24 +178,24 @@ object Utils {
         var success = true
         if (!storageDir.exists()) {
             success = storageDir.mkdirs()
-            if (success) {
-                val imageFile = File(storageDir, imageFileName)
-                savedImagePath = imageFile.absolutePath
+        }
+        if (success) {
+            val imageFile = File(storageDir, imageFileName)
+            savedImagePath = imageFile.absolutePath
 
-                Log.i("Saved Image", savedImagePath)
-
-                try {
-                    val fOut: OutputStream = FileOutputStream(imageFile)
-                    image.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
-                    fOut.close()
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                    function.invoke(false)
-                }
-                // Add the image to the system gallery
-                galleryAddPic(savedImagePath, function)
+            try {
+                val fOut: OutputStream = FileOutputStream(imageFile)
+                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
+                fOut.close()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                function.invoke(false)
             }
-            else function.invoke(false)
+
+            // Add the image to the system gallery
+            galleryAddPic(savedImagePath){
+                function.invoke(true)
+            }
         }
         return savedImagePath
     }

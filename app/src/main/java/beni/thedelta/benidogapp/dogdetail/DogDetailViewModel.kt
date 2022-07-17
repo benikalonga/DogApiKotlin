@@ -30,7 +30,7 @@ class DogDetailViewModel : ViewModel() {
 
     fun savePhoto(context : Context, url: String, function: (Boolean) -> Unit) {
         getBitmap(context, url){
-            Utils.saveImage(it, url.substring(url.lastIndexOf("/")), function)
+            Utils.saveImage(it, url.substring(url.lastIndexOf("/")+1), function)
         }
     }
 

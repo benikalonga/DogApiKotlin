@@ -1,14 +1,17 @@
 package beni.thedelta.benidogapp.dog
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import beni.thedelta.benidogapp.R
 import beni.thedelta.benidogapp.breed.Breed
@@ -17,17 +20,11 @@ import beni.thedelta.benidogapp.dogdetail.DogDetailFragment
 
 class DogFragment : Fragment() {
 
-    // Fragment must be a singleton object
-    companion object {
-        fun newInstance(breed : Breed) = DogFragment().apply {
-            arguments = bundleOf(Breed::class.java.simpleName to breed.designation, "list" to breed.list)
-        }
-    }
-
     private lateinit var viewModel: DogViewModel
     private lateinit var binding: FragmentDogBinding
     private lateinit var adapter: DogAdapter
-    private lateinit var breed : Breed
+    private lateinit var breed: Breed
+    private lateinit var dogs: List<Dog>
 
 
     override fun onCreateView(
@@ -36,7 +33,10 @@ class DogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        breed = Breed(arguments?.getString(Breed::class.java.simpleName)!!, arguments?.getString("list")!!)
+        breed = Breed(
+            arguments?.getString(Breed::class.java.simpleName)!!,
+            arguments?.getString("list")!!
+        )
 
         binding = FragmentDogBinding.inflate(inflater, container, false)
 
@@ -58,10 +58,12 @@ class DogFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
         adapter = DogAdapter(layoutInflater) {
-            findNavController().navigate(R.id.action_to_DogDetail, bundleOf(
-                Breed::class.java.simpleName to it.breed,
-                Dog::class.java.simpleName to it.imageUrl
-            ))
+            findNavController().navigate(
+                R.id.action_to_DogDetail, bundleOf(
+                    Breed::class.java.simpleName to it.breed,
+                    Dog::class.java.simpleName to it.imageUrl
+                )
+            )
         }
         initViews()
 
@@ -79,7 +81,10 @@ class DogFragment : Fragment() {
 
                 }
                 is DogViewState.Content -> {
-                    adapter.submitList(it.dogs.map { Dog(imageUrl = it,breed = breed.designation) })
+                    dogs = it.dogs.map { Dog(imageUrl = it, breed = breed.designation) }
+
+                    populateDogs()
+
                     binding.frameLoading.visibility = View.GONE
                     binding.recyclerDogs.visibility = View.VISIBLE
                     binding.ivLoading.visibility = View.GONE
@@ -105,5 +110,50 @@ class DogFragment : Fragment() {
         binding.recyclerDogs.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerDogs.adapter = adapter
+
+        binding.recyclerDogs.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                Log.i("Scroll", "Changed")
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                Log.i("Scroll", "Scrolled")
+                if (!binding.recyclerDogs.canScrollVertically(1)) {
+                    populateDogs()
+                }
+
+            }
+        })
+
+    }
+
+    fun populateDogs() {
+
+        val max = dogs.size
+        val curList = adapter.currentList
+        val curSize = curList.size
+        val nextSize = if (curSize + 10 < max) curSize + 10 else max
+
+        if (max == curSize)
+            return
+
+        binding.progressLoad.visibility = View.VISIBLE
+        binding.progressLoad.start()
+
+        val newList = mutableListOf<Dog>().apply {
+            addAll(curList)
+            addAll(dogs.subList(curSize, nextSize))
+        }
+
+        Log.i("Populate", "Max $max, CurSize $curSize, NextSize $nextSize")
+
+        binding.progressLoad.postDelayed({
+            binding.progressLoad.visibility = View.GONE
+            binding.progressLoad.stop()
+            adapter.submitList(newList)
+            binding.recyclerDogs.smoothScrollBy(0,20)
+        }, 1000)
     }
 }
