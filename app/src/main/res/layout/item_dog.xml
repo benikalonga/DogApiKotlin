@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="dog"
+            type="beni.thedelta.benidogapp.dog.Dog" />
+
+        <variable
+            name="itemClickListener"
+            type="beni.thedelta.benidogapp.config.ItemClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> itemClickListener.onItemClick(dog)}"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/len_6"
+        app:cardElevation="@dimen/len_6"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/imgIcon"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/len_172"
+                android:scaleType="centerCrop"
+                android:background="@color/grey_600"
+                app:imageUrl="@{dog.imageUrl}"
+                tools:src="@drawable/ic_baseline_pets_24"
+                />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

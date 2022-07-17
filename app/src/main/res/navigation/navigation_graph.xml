@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/FragBreeds">
+
+    <fragment
+        android:id="@+id/FragBreeds"
+        android:name="beni.thedelta.benidogapp.breed.BreedFragment"
+        android:label="@string/frag_breeds"
+        tools:layout="@layout/fragment_breed">
+
+        <action
+            android:id="@+id/action_to_DogFragment"
+            app:destination="@id/FragDogs" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/FragDogs"
+        android:name="beni.thedelta.benidogapp.dog.DogFragment"
+        android:label="@string/frag_dogs"
+        tools:layout="@layout/fragment_dog">
+
+        <action
+            android:id="@+id/action_to_DogDetail"
+            app:destination="@id/FragDogDetail"
+            />
+        <action
+            android:id="@+id/action_to_Breed"
+            app:destination="@id/FragBreeds" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/FragDogDetail"
+        android:name="beni.thedelta.benidogapp.dogdetail.DogDetailFragment"
+        android:label="@string/frag_dog_detail"
+        tools:layout="@layout/fragment_dog_detail">
+
+        <action
+            android:id="@+id/action_back_to_FragDog"
+            app:destination="@id/FragDogs" />
+    </fragment>
+
+</navigation>
