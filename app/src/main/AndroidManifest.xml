@@ -19,6 +19,7 @@
         <activity
             android:name=".WelcomeActivity"
             android:exported="true"
+            android:screenOrientation="portrait
             android:theme="@style/Theme.BeniDogApp.Fullscreen">
 
             <intent-filter>
@@ -32,11 +33,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.BeniDogApp.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
