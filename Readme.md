@@ -1,4 +1,5 @@
-# DogApiKotlin by Beni Kalonga
+# DogApiKotlin
+byBeni Kalonga
 
 Download apk file here [Dog Api Demo](apk/dogapi.apk) 👍
 
