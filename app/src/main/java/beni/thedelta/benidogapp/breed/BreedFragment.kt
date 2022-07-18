@@ -1,7 +1,6 @@
 package beni.thedelta.benidogapp.breed
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import beni.thedelta.benidogapp.R
 import beni.thedelta.benidogapp.databinding.FragmentBreedBinding
@@ -24,7 +22,6 @@ class BreedFragment : Fragment() {
     private lateinit var viewModel: BreedViewModel
     private lateinit var binding: FragmentBreedBinding
     private lateinit var adapter: BreedAdapter
-    private lateinit var breeds: List<Breed>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +33,7 @@ class BreedFragment : Fragment() {
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
-        binding.toolbarLayout.title = getString(R.string.app_name)
+        binding.toolbarLayout.title = getString(R.string.breed_title)
         binding.refreshLayout.setOnRefreshListener {
             viewModel.load()
         }
@@ -74,6 +71,9 @@ class BreedFragment : Fragment() {
                 is BreedViewState.Content -> {
 
                     adapter.submitList(it.breeds)
+
+                    binding.toolbarLayout.title = getString(R.string.breed_title)+" (${it.breeds.size})"
+
                     binding.frameLoading.visibility = View.GONE
                     binding.recyclerBreeds.visibility = View.VISIBLE
                     binding.ivLoading.visibility = View.GONE

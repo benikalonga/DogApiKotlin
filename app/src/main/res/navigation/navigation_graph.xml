@@ -13,7 +13,12 @@
 
         <action
             android:id="@+id/action_to_DogFragment"
-            app:destination="@id/FragDogs" />
+            app:destination="@id/FragDogs"
+            app:enterAnim="@animator/slide_in_right"
+            app:exitAnim="@animator/slide_out_left"
+            app:popEnterAnim="@animator/slide_in_left"
+            app:popExitAnim="@animator/slide_out_right"
+            />
     </fragment>
 
     <fragment
@@ -25,10 +30,19 @@
         <action
             android:id="@+id/action_to_DogDetail"
             app:destination="@id/FragDogDetail"
+            app:enterAnim="@animator/slide_in_right"
+            app:exitAnim="@animator/slide_out_left"
+            app:popEnterAnim="@animator/slide_in_left"
+            app:popExitAnim="@animator/slide_out_right"
             />
         <action
             android:id="@+id/action_to_Breed"
-            app:destination="@id/FragBreeds" />
+            app:destination="@id/FragBreeds"
+            app:enterAnim="@animator/slide_in_right"
+            app:exitAnim="@animator/slide_out_left"
+            app:popEnterAnim="@animator/slide_in_left"
+            app:popExitAnim="@animator/slide_out_right"
+            />
     </fragment>
 
 
@@ -40,7 +54,12 @@
 
         <action
             android:id="@+id/action_back_to_FragDog"
-            app:destination="@id/FragDogs" />
+            app:destination="@id/FragDogs"
+            app:enterAnim="@animator/slide_in_right"
+            app:exitAnim="@animator/slide_out_left"
+            app:popEnterAnim="@animator/slide_in_left"
+            app:popExitAnim="@animator/slide_out_right"
+            />
     </fragment>
 
 </navigation>

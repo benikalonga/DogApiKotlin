@@ -48,7 +48,7 @@
                 <net.qiujuer.genius.ui.widget.Loading
                     android:id="@+id/progressLoad"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/len_2"
+                    android:layout_height="@dimen/len_4"
                     android:layout_gravity="bottom|center_horizontal"
                     android:layout_marginBottom="@dimen/len_6"
                     android:visibility="gone"
