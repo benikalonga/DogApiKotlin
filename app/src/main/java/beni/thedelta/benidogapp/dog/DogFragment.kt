@@ -22,9 +22,10 @@ class DogFragment : Fragment() {
 
     private lateinit var viewModel: DogViewModel
     private lateinit var binding: FragmentDogBinding
-    private lateinit var adapter: DogAdapter
+    private var adapter: DogAdapter? =null
     private lateinit var breed: Breed
     private lateinit var dogs: List<Dog>
+    private var viewFrag: View? = null
 
 
     override fun onCreateView(
@@ -33,77 +34,83 @@ class DogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        breed = Breed(
-            arguments?.getString(Breed::class.java.simpleName)!!,
-            arguments?.getString("list")!!
-        )
+        if (viewFrag == null){
+            breed = Breed(
+                arguments?.getString(Breed::class.java.simpleName)!!,
+                arguments?.getString("list")!!
+            )
 
-        binding = FragmentDogBinding.inflate(inflater, container, false)
+            binding = FragmentDogBinding.inflate(inflater, container, false).apply {
+                viewFrag = root
+            }
 
-        binding.refreshLayout.setOnRefreshListener {
-            viewModel.load(breed.designation)
+            binding.refreshLayout.setOnRefreshListener {
+                viewModel.load(breed.designation)
+            }
         }
-        return binding.root
+
+        return viewFrag as View
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        if (adapter == null){
 
-        binding.toolbar.title = breed.designation
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+            binding.toolbar.title = breed.designation
 
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
+            (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+            (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        adapter = DogAdapter(layoutInflater) {
-            findNavController().navigate(
-                R.id.action_to_DogDetail, bundleOf(
-                    Breed::class.java.simpleName to it.breed,
-                    Dog::class.java.simpleName to it.imageUrl
+            adapter = DogAdapter(layoutInflater) {
+                findNavController().navigate(
+                    R.id.action_to_DogDetail, bundleOf(
+                        Breed::class.java.simpleName to it.breed,
+                        Dog::class.java.simpleName to it.imageUrl
+                    )
                 )
-            )
-        }
-        initViews()
+            }
+            initViews()
 
-        viewModel = ViewModelProvider(this).get(DogViewModel::class.java)
-        viewModel.dogViewState.observe(viewLifecycleOwner) {
+            viewModel = ViewModelProvider(this).get(DogViewModel::class.java)
+            viewModel.dogViewState.observe(viewLifecycleOwner) {
 
-            when (it) {
-                is DogViewState.Loading -> {
+                when (it) {
+                    is DogViewState.Loading -> {
 
-                    binding.frameLoading.visibility = View.VISIBLE
-                    binding.recyclerDogs.visibility = View.GONE
-                    binding.ivLoading.visibility = View.GONE
-                    binding.tvLoading.text = getString(R.string.loading)
-                    binding.refreshLayout.isRefreshing = true
+                        binding.frameLoading.visibility = View.VISIBLE
+                        binding.recyclerDogs.visibility = View.GONE
+                        binding.ivLoading.visibility = View.GONE
+                        binding.tvLoading.text = getString(R.string.loading)
+                        binding.refreshLayout.isRefreshing = true
 
-                }
-                is DogViewState.Content -> {
-                    dogs = it.dogs.map { Dog(imageUrl = it, breed = breed.designation) }
+                    }
+                    is DogViewState.Content -> {
+                        dogs = it.dogs.map { Dog(imageUrl = it, breed = breed.designation) }
 
-                    populateDogs()
+                        populateDogs()
 
-                    binding.frameLoading.visibility = View.GONE
-                    binding.recyclerDogs.visibility = View.VISIBLE
-                    binding.ivLoading.visibility = View.GONE
-                    binding.refreshLayout.isRefreshing = false
+                        binding.frameLoading.visibility = View.GONE
+                        binding.recyclerDogs.visibility = View.VISIBLE
+                        binding.ivLoading.visibility = View.GONE
+                        binding.refreshLayout.isRefreshing = false
 
-                }
-                is DogViewState.Error -> {
-                    binding.refreshLayout.isRefreshing = false
+                    }
+                    is DogViewState.Error -> {
+                        binding.refreshLayout.isRefreshing = false
 
-                    binding.frameLoading.visibility = View.VISIBLE
-                    binding.tvLoading.text = getString(R.string.error)
-                    binding.ivLoading.visibility = View.VISIBLE
+                        binding.frameLoading.visibility = View.VISIBLE
+                        binding.tvLoading.text = getString(R.string.error)
+                        binding.ivLoading.visibility = View.VISIBLE
 
-                    binding.recyclerDogs.visibility = View.GONE
+                        binding.recyclerDogs.visibility = View.GONE
+                    }
                 }
             }
+            viewModel.load(breed.designation)
         }
-        viewModel.load(breed.designation)
-
     }
 
     fun initViews() {
@@ -132,7 +139,7 @@ class DogFragment : Fragment() {
     fun populateDogs() {
 
         val max = dogs.size
-        val curList = adapter.currentList
+        val curList = adapter!!.currentList
         val curSize = curList.size
         val nextSize = if (curSize + 10 < max) curSize + 10 else max
 
@@ -152,7 +159,7 @@ class DogFragment : Fragment() {
         binding.progressLoad.postDelayed({
             binding.progressLoad.visibility = View.GONE
             binding.progressLoad.stop()
-            adapter.submitList(newList)
+            adapter!!.submitList(newList)
             binding.recyclerDogs.smoothScrollBy(0,20)
         }, 1000)
     }
