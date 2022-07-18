@@ -36,6 +36,12 @@ MVVM architecture is a Model-View-ViewModel architecture that removes the tight 
 - Fragment
 - Transition
 
+# Bonus points
+Pictures
+- can be saved
+- can be shared
+- are continuously loading as the user scrolls down. (Infinite scrolling)
+
 ## Screenshots (Step by step)
  <p align="center">
   <img src="files/1.png" width="150" title="Picture 1">
