@@ -14,12 +14,12 @@ https://user-images.githubusercontent.com/29547138/179435912-16fdc601-9d02-4fb7-
 # Depencies and Libraries
 [In the Build.gradle file](app/build.gradle)
 
-- Retrofit
-- Glide
-- PhotoView
-- PermissionX
-- Blurry
-- Genius UI & Res
+- [Retrofit](https://square.github.io/retrofit/) is a library layered atop of OkHttp that aims to simplify making REST-style Web service calls. You use annotations on a Java/Kotlin interface to describe the REST URLs that you wish to access, along with the HTTP operations to perform (e.g., GET, POST, PUT).
+- [Glide](https://bumptech.github.io/glide/) According to me, Glide is a fast and efficient image loading library for Android focused on smooth scrolling. Glide offers an easy to use API, a performant and extensible resource decoding pipeline and automatic resource pooling
+- [PhotoView](https://github.com/Baseflow/PhotoView) This library aims to keep the zooming implementation simple. If you are looking for an implementation that supports subsampling, 
+- [PermissionX](https://github.com/guolindev/PermissionX) it is an extension Android library that makes Android runtime permission request extremely easy. You can use it for basic permission request occasions or handle more complex conditions, like showing rationale dialog or go to app settings for allowance manually.
+- [Blurry](https://github.com/wasabeef/Blurry) This library helps to apply the blur effect on a view
+- Genius UI & Res Generates resources such like colors and dimen with different values
 
 # Architecture (MVVM)
 ### Model - View - ViewModel
