@@ -45,4 +45,5 @@ MVVM architecture is a Model-View-ViewModel architecture that removes the tight 
   <img src="files/5.png" width="150" alt="accessibility text">
   <img src="files/6.png" width="150" alt="accessibility text">
   <img src="files/7.png" width="150" alt="accessibility text">
+  <img src="files/8.png" width="150" alt="accessibility text">
  </p>
