@@ -45,7 +45,6 @@ class BreedFragment : Fragment() {
             }
         }
         else{
-            Log.i("Frag", "Exist")
             (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
             (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
             (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(false)
