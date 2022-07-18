@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/ElliottLandsborough/dog-ceo-api.svg?branch=master)](apk/BeniDogApi.apk)
 [![CircleCI](https://circleci.com/gh/ElliottLandsborough/dog-ceo-api.svg?style=svg)](apk/BeniDogApi.apk)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/28e7bd35f2fe4d42a19aec5f705c5024)](https://www.codacy.com/app/ElliottLandsborough/dog-ceo-api?utm_source=github.com&utm_medium=referral&utm_content=ElliottLandsborough/dog-ceo-api&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/28e7bd35f2fe4d42a19aec5f705c5024)](app/src/main)
 
 
 Download apk file here [Dog Api Demo](apk/BeniDogApi.apk) 👍
