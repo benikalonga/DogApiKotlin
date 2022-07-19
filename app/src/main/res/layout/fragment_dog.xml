@@ -48,13 +48,15 @@
                 <net.qiujuer.genius.ui.widget.Loading
                     android:id="@+id/progressLoad"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/len_4"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginBottom="@dimen/len_6"
+                    android:layout_marginBottom="@dimen/len_20"
                     android:visibility="gone"
                     tools:visibility="visible"
-                    app:gForegroundLineSize="@dimen/len_4"
-                    app:gProgressStyle="line"
+                    app:gForegroundLineSize="@dimen/len_6"
+                    app:gBackgroundColor="@color/white"
+                    app:gBackgroundLineSize="@dimen/len_16"
+                    app:gProgressStyle="circle"
                     app:gAutoRun="false"
                     />
 

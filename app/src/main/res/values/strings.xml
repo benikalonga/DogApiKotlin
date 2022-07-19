@@ -11,6 +11,9 @@
     <string name="save_title">Save the Picture</string>
     <string name="save_pos">Save</string>
     <string name="save_neg">Cancel</string>
+    <string name="shared_element_item_dog">shared_element_item_dog</string>
+    <string name="shared_element_card">shared_element_card</string>
+    <string name="shared_element_item_pic">shared_element_item_pic</string>
 
     <string name="permission_ration_msg">You have to grant to save a picture</string>
     <string name="ok">OK</string>

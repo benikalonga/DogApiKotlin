@@ -17,9 +17,11 @@
         <import type="android.view.View"/>
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
         android:onClick="@{() -> itemClickListener.onItemClick(breed)}"
         app:cardBackgroundColor="@color/white"
         app:cardUseCompatPadding="true"
@@ -79,6 +81,6 @@
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>

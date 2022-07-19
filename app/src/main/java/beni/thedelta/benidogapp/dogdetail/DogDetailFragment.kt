@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -42,6 +43,17 @@ class DogDetailFragment : Fragment() {
         )
 
         binding = FragmentDogDetailBinding.inflate(inflater, container, false)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            // Handle the back button event
+            if (binding.imgDog.scale != binding.imgDog.minimumScale)
+                binding.imgDog.scale = binding.imgDog.minimumScale
+            else {
+                this.isEnabled = false
+                activity?.onBackPressed()
+            }
+
+        }
 
         return binding.root
     }
@@ -86,23 +98,29 @@ class DogDetailFragment : Fragment() {
 
         AlertDialog.Builder(context)
             .setTitle(R.string.save_title)
-            .setPositiveButton(R.string.save_pos) {_,_ ->
+            .setPositiveButton(R.string.save_pos) { _, _ ->
                 Utils.permissionCheck(activity as AppCompatActivity) { authorized ->
 
                     if (authorized) {
-                        viewModel.savePhoto(requireContext(), dog.imageUrl!!){ success ->
-                            Toast.makeText(context, getString(R.string.save_success),Toast.LENGTH_SHORT).show()
+                        viewModel.savePhoto(requireContext(), dog.imageUrl!!) { success ->
+                            Toast.makeText(
+                                context,
+                                getString(R.string.save_success),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
-                        Toast.makeText(context, getString(R.string.save_error),Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
-            .setNegativeButton(R.string.save_neg){_,_ ->}
+            .setNegativeButton(R.string.save_neg) { _, _ -> }
             .show()
     }
 
     fun share() {
         viewModel.sharePhoto(requireContext(), dog.imageUrl!!)
     }
+
 }

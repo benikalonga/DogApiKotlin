@@ -30,10 +30,10 @@
         <action
             android:id="@+id/action_to_DogDetail"
             app:destination="@id/FragDogDetail"
-            app:enterAnim="@animator/slide_in_right"
-            app:exitAnim="@animator/slide_out_left"
-            app:popEnterAnim="@animator/slide_in_left"
-            app:popExitAnim="@animator/slide_out_right"
+            app:enterAnim="@animator/scale_in_toward"
+            app:exitAnim="@animator/scale_out_toward"
+            app:popEnterAnim="@animator/scale_in_backward"
+            app:popExitAnim="@animator/scale_out_backward"
             />
         <action
             android:id="@+id/action_to_Breed"

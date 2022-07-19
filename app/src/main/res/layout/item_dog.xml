@@ -13,32 +13,29 @@
             type="beni.thedelta.benidogapp.config.ItemClickListener" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardDog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
         android:onClick="@{() -> itemClickListener.onItemClick(dog)}"
+        android:transitionName="@string/shared_element_item_dog"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="@dimen/len_6"
         app:cardElevation="@dimen/len_6"
         >
-
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imgDog"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            >
-            <ImageView
-                android:id="@+id/imgIcon"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/len_172"
-                android:scaleType="centerCrop"
-                android:background="@color/grey_600"
-                app:imageUrl="@{dog.imageUrl}"
-                tools:src="@drawable/ic_baseline_pets_24"
-                />
-        </LinearLayout>
+            android:layout_height="@dimen/len_172"
+            android:scaleType="centerCrop"
+            android:background="@color/grey_600"
+            android:transitionName="@string/shared_element_item_pic"
+            app:imageUrl="@{dog.imageUrl}"
+            tools:src="@drawable/ic_baseline_pets_24"
+            />
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>

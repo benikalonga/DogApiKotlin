@@ -64,11 +64,11 @@ class DogFragment : Fragment() {
             (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
             (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
 
-            adapter = DogAdapter(layoutInflater) {
+            adapter = DogAdapter(layoutInflater) { _, _, dog ->
                 findNavController().navigate(
                     R.id.action_to_DogDetail, bundleOf(
-                        Breed::class.java.simpleName to it.breed,
-                        Dog::class.java.simpleName to it.imageUrl
+                        Breed::class.java.simpleName to dog.breed,
+                        Dog::class.java.simpleName to dog.imageUrl
                     )
                 )
             }

@@ -1,14 +1,16 @@
 package beni.thedelta.benidogapp.dog
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import beni.thedelta.benidogapp.config.ItemClickListener
 import beni.thedelta.benidogapp.databinding.ItemDogBinding
 
-class DogAdapter(private val inflater: LayoutInflater, private val onItemClick: (Dog) -> Unit) :
+class DogAdapter(private val inflater: LayoutInflater, private val onItemClick: (View, ImageView, Dog) -> Unit) :
     ListAdapter<Dog, DogHolder>(BreedDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -19,13 +21,13 @@ class DogAdapter(private val inflater: LayoutInflater, private val onItemClick: 
     }
 }
 
-class DogHolder(val binding: ItemDogBinding, val onItemClick: (Dog) -> Unit) :
+class DogHolder(val binding: ItemDogBinding, val onItemClick: (View, ImageView, Dog) -> Unit) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(dog: Dog) {
         binding.dog = dog
         binding.itemClickListener = object : ItemClickListener<Dog>{
             override fun onItemClick(item: Dog) {
-                onItemClick.invoke(dog)
+                onItemClick(binding.cardDog, binding.imgDog, dog)
             }
         }
     }
