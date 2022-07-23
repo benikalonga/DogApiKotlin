@@ -43,7 +43,8 @@
                     android:id="@+id/recyclerDogs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/len_6"
+                    android:paddingBottom="@dimen/len_56"
+                    android:clipToPadding="false"
                     />
                 <net.qiujuer.genius.ui.widget.Loading
                     android:id="@+id/progressLoad"

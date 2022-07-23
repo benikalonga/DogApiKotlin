@@ -74,6 +74,8 @@
                         android:id="@+id/recyclerBreeds"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/len_56"
+                        android:clipToPadding="false"
                         />
 
                     <LinearLayout
