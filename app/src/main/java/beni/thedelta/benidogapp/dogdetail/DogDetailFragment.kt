@@ -1,32 +1,22 @@
 package beni.thedelta.benidogapp.dogdetail
 
 import android.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.telephony.mbms.MbmsErrors
 import android.view.*
 import android.widget.Toast
 import androidx.activity.addCallback
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import beni.thedelta.benidogapp.R
 import beni.thedelta.benidogapp.breed.Breed
 import beni.thedelta.benidogapp.databinding.FragmentDogDetailBinding
 import beni.thedelta.benidogapp.dog.Dog
 import beni.thedelta.benidogapp.plus.Utils
-import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 
 class DogDetailFragment : Fragment() {
-
-    companion object {
-        fun newInstance(dog: Dog) = DogDetailFragment().apply {
-            arguments = bundleOf(
-                Breed::class.java.simpleName to dog.breed,
-                Dog::class.java.simpleName to dog.imageUrl,
-            )
-        }
-    }
 
     private lateinit var viewModel: DogDetailViewModel
     private lateinit var binding: FragmentDogDetailBinding
@@ -70,6 +60,43 @@ class DogDetailFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(DogDetailViewModel::class.java)
 
+
+        // Observe for save image
+        viewModel.saveViewState.observe(viewLifecycleOwner) {
+            when (it) {
+                is DogDetailViewState.Loading -> {
+                    binding.progressLoad.visibility = View.VISIBLE
+                    binding.progressLoad.start()
+                }
+                is DogDetailViewState.Success -> {
+                    binding.progressLoad.visibility = View.GONE
+                    binding.progressLoad.stop()
+                    Toast.makeText(context, getString(R.string.save_success), Toast.LENGTH_SHORT)
+                        .show()
+                }
+                is DogDetailViewState.Error -> {
+                    binding.progressLoad.visibility = View.GONE
+                    binding.progressLoad.stop()
+                    Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+
+        // Observe for share
+        viewModel.shareViewState.observe(viewLifecycleOwner) {
+            when (it) {
+                is DogDetailViewState.Loading -> {
+                    binding.progressLoad.visibility = View.VISIBLE
+                    binding.progressLoad.start()
+                }
+                is DogDetailViewState.Success, is DogDetailViewState.Error -> {
+                    binding.progressLoad.visibility = View.GONE
+                    binding.progressLoad.stop()
+                }
+            }
+        }
+
         binding.dog = dog
 
     }
@@ -102,15 +129,9 @@ class DogDetailFragment : Fragment() {
                 Utils.permissionCheck(activity as AppCompatActivity) { authorized ->
 
                     if (authorized) {
-                        viewModel.savePhoto(requireContext(), dog.imageUrl!!) { success ->
-                            Toast.makeText(
-                                context,
-                                getString(R.string.save_success),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        viewModel.savePhoto(dog.imageUrl!!)
                     } else {
-                        Toast.makeText(context, getString(R.string.save_error), Toast.LENGTH_SHORT)
+                        Toast.makeText(context, getString(R.string.save_perm_error), Toast.LENGTH_SHORT)
                             .show()
                     }
                 }

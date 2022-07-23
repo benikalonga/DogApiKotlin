@@ -1,41 +1,49 @@
 package beni.thedelta.benidogapp.dogdetail
 
-import android.R.attr.bitmap
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import beni.thedelta.benidogapp.config.RetrofitImage
 import beni.thedelta.benidogapp.plus.Utils
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 
 
 class DogDetailViewModel : ViewModel() {
 
-    private fun getBitmap(context : Context, url: String, function: (Bitmap) -> Unit){
-        Glide.with(context)
-            .asBitmap()
-            .load(url)
-            .into(object : SimpleTarget<Bitmap?>(100, 100) {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap?>?
-                ) {
-                    function.invoke(resource)
-                }
-            })
-    }
+    private val _saveViewState = MutableLiveData<DogDetailViewState>()
+    val saveViewState: LiveData<DogDetailViewState> = _saveViewState
 
-    fun savePhoto(context : Context, url: String, function: (Boolean) -> Unit) {
-        getBitmap(context, url){
-            Utils.saveImage(it, url.substring(url.lastIndexOf("/")+1), function)
+    private val _shareViewState = MutableLiveData<DogDetailViewState>()
+    val shareViewState: LiveData<DogDetailViewState> = _shareViewState
+
+    fun savePhoto(url: String) {
+
+        _saveViewState.postValue(DogDetailViewState.Loading)
+
+        RetrofitImage.getBitmapFrom(url) {
+            // "it" - the bitmap
+            if (it != null) {
+                Utils.saveImage(it, url.substring(url.lastIndexOf("/") + 1)) { result ->
+                    _saveViewState.postValue(if (result) DogDetailViewState.Success else DogDetailViewState.Error)
+                }
+            } else {
+                _saveViewState.postValue(DogDetailViewState.Error)
+            }
         }
     }
 
-    fun sharePhoto(context : Context, url: String) {
-        getBitmap(context, url){
+    //Sharing photo
+    fun sharePhoto(context: Context, url: String) {
+
+        _shareViewState.postValue(DogDetailViewState.Loading)
+
+        RetrofitImage.getBitmapFrom(url) {
+            // "it" - the bitmap
+
+            _shareViewState.postValue(DogDetailViewState.Success)
 
             val bitmapPath: String = MediaStore.Images.Media.insertImage(
                 context.contentResolver,
@@ -48,8 +56,8 @@ class DogDetailViewModel : ViewModel() {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "image/png"
             intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-            context.startActivity(Intent.createChooser(intent, "Share"))
+            context.startActivity(Intent.createChooser(intent, "Share Image"))
         }
     }
-
 }
+

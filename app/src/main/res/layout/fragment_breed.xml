@@ -80,6 +80,7 @@
                         android:id="@+id/frameLoading"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/len_116"
                         android:gravity="center"
                         android:orientation="vertical">
 

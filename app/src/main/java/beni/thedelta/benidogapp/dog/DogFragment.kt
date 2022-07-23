@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -15,18 +14,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import beni.thedelta.benidogapp.R
 import beni.thedelta.benidogapp.breed.Breed
-import beni.thedelta.benidogapp.databinding.FragmentDogBinding
-import beni.thedelta.benidogapp.dogdetail.DogDetailFragment
+import beni.thedelta.benidogapp.databinding.FragmentDogsBinding
 
 class DogFragment : Fragment() {
 
     private lateinit var viewModel: DogViewModel
-    private lateinit var binding: FragmentDogBinding
+    private lateinit var binding: FragmentDogsBinding
     private var adapter: DogAdapter? =null
     private lateinit var breed: Breed
     private lateinit var dogs: List<Dog>
     private var viewFrag: View? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +37,7 @@ class DogFragment : Fragment() {
                 arguments?.getString("list")!!
             )
 
-            binding = FragmentDogBinding.inflate(inflater, container, false).apply {
+            binding = FragmentDogsBinding.inflate(inflater, container, false).apply {
                 viewFrag = root
             }
 
@@ -88,9 +85,9 @@ class DogFragment : Fragment() {
 
                     }
                     is DogViewState.Content -> {
-                        dogs = it.dogs.map { Dog(imageUrl = it, breed = breed.designation) }
+                        dogs = it.dogs
 
-                        populateDogs()
+                        infiniteLoading()
 
                         binding.frameLoading.visibility = View.GONE
                         binding.recyclerDogs.visibility = View.VISIBLE
@@ -119,24 +116,17 @@ class DogFragment : Fragment() {
         binding.recyclerDogs.adapter = adapter
 
         binding.recyclerDogs.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                Log.i("Scroll", "Changed")
-            }
-
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                Log.i("Scroll", "Scrolled")
                 if (!binding.recyclerDogs.canScrollVertically(1)) {
-                    populateDogs()
+                    infiniteLoading()
                 }
-
             }
         })
 
     }
 
-    fun populateDogs() {
+    fun infiniteLoading() {
 
         val max = dogs.size
         val curList = adapter!!.currentList
@@ -154,7 +144,7 @@ class DogFragment : Fragment() {
             addAll(dogs.subList(curSize, nextSize))
         }
 
-        Log.i("Populate", "Max $max, CurSize $curSize, NextSize $nextSize")
+        // Log.i("Populate", "Max $max, CurSize $curSize, NextSize $nextSize")
 
         binding.progressLoad.postDelayed({
             binding.progressLoad.visibility = View.GONE

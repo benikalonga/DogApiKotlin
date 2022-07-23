@@ -11,6 +11,7 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(ActivityWelcomeBinding.inflate(layoutInflater).root)
+        supportActionBar?.hide()
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

@@ -24,6 +24,8 @@
     <style name="Theme.BeniDogApp.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="Theme.BeniDogApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

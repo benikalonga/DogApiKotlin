@@ -19,8 +19,10 @@ class DogViewModel : ViewModel() {
         //Load Breed From Internet
         try {
             viewModelScope.launch {
-                val dogs = RetrofitDog.service.getAllDogs(breed)
-                _dogViewState.postValue(DogViewState.Content(dogs.imageUrls!!))
+                val dogs = RetrofitDog.service.getAllDogs(breed).imageUrls!!.map {
+                    Dog(it, breed)
+                }
+                _dogViewState.postValue(DogViewState.Content(dogs))
             }
         } catch (e: Exception) {
             e.printStackTrace()

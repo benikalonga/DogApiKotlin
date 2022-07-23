@@ -25,7 +25,7 @@
         android:id="@+id/FragDogs"
         android:name="beni.thedelta.benidogapp.dog.DogFragment"
         android:label="@string/frag_dogs"
-        tools:layout="@layout/fragment_dog">
+        tools:layout="@layout/fragment_dogs">
 
         <action
             android:id="@+id/action_to_DogDetail"
@@ -35,14 +35,7 @@
             app:popEnterAnim="@animator/scale_in_backward"
             app:popExitAnim="@animator/scale_out_backward"
             />
-        <action
-            android:id="@+id/action_to_Breed"
-            app:destination="@id/FragBreeds"
-            app:enterAnim="@animator/slide_in_right"
-            app:exitAnim="@animator/slide_out_left"
-            app:popEnterAnim="@animator/slide_in_left"
-            app:popExitAnim="@animator/slide_out_right"
-            />
+
     </fragment>
 
 
@@ -52,14 +45,6 @@
         android:label="@string/frag_dog_detail"
         tools:layout="@layout/fragment_dog_detail">
 
-        <action
-            android:id="@+id/action_back_to_FragDog"
-            app:destination="@id/FragDogs"
-            app:enterAnim="@animator/slide_in_right"
-            app:exitAnim="@animator/slide_out_left"
-            app:popEnterAnim="@animator/slide_in_left"
-            app:popExitAnim="@animator/slide_out_right"
-            />
     </fragment>
 
 </navigation>

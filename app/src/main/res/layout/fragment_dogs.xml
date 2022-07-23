@@ -50,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginBottom="@dimen/len_20"
+                    android:layout_marginBottom="@dimen/len_64"
                     android:visibility="gone"
                     tools:visibility="visible"
                     app:gForegroundLineSize="@dimen/len_6"

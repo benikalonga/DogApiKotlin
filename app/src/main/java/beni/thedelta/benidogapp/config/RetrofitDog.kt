@@ -11,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Url
 
 private const val BASE_URL = "https://dog.ceo/api/"
 
@@ -50,5 +51,9 @@ interface DogApi {
     //https://dog.ceo/api/breed/hound/images/random
     @GET("breed/{breed}/images/random")
     suspend fun getImageByBreed(@Path("breed") breed: String): Dog
+
+    //Full URL for Image
+    @GET
+    fun getImageData(@Url url: String): Call<ResponseBody>
 
 }

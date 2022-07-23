@@ -29,6 +29,68 @@ import java.io.OutputStream
 
 
 object Utils {
+
+    fun permissionCheck(a: AppCompatActivity, function: (Boolean) -> Unit) {
+        PermissionX.init(a)
+            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .onExplainRequestReason { scope, deniedList ->
+                scope.showRequestReasonDialog(
+                    deniedList,
+                    a.getString(R.string.permission_ration_msg),
+                    a.getString(R.string.ok),
+                    a.getString(R.string.cancel)
+                )
+            }
+            .request { allGranted, grantedList, deniedList ->
+                if (allGranted) {
+                    function.invoke(true)
+                } else {
+                    function.invoke(false)
+                }
+            }
+    }
+
+    fun saveImage(image: Bitmap, name: String, function: (Boolean) -> Unit): String? {
+        var savedImagePath: String? = null
+        val imageFileName = "$name.jpg"
+        val storageDir = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                .toString() + "/BeniDogApi"
+        )
+        var success = true
+        if (!storageDir.exists()) {
+            success = storageDir.mkdirs()
+        }
+        if (success) {
+            val imageFile = File(storageDir, imageFileName)
+            savedImagePath = imageFile.absolutePath
+
+            try {
+                val fOut: OutputStream = FileOutputStream(imageFile)
+                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
+                fOut.close()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+                function.invoke(false)
+            }
+
+            // Add the image to the system gallery
+            galleryAddPic(savedImagePath){
+                function.invoke(true)
+            }
+        }
+        return savedImagePath
+    }
+
+    private fun galleryAddPic(imagePath: String, function: (Boolean) -> Unit) {
+        val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+        val f = File(imagePath)
+        val contentUri: Uri = Uri.fromFile(f)
+        mediaScanIntent.data = contentUri
+        function.invoke(true)
+    }
+
+
     fun animateToNormalSize(view: View, animListener: AnimListener? = null) {
         if (view.visibility != View.VISIBLE) view.visibility = View.VISIBLE
         view.animate()
@@ -148,68 +210,8 @@ object Utils {
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    fun permissionCheck(a: AppCompatActivity, function: (Boolean) -> Unit) {
-        PermissionX.init(a)
-            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .onExplainRequestReason { scope, deniedList ->
-                scope.showRequestReasonDialog(
-                    deniedList,
-                    a.getString(R.string.permission_ration_msg),
-                    a.getString(R.string.ok),
-                    a.getString(R.string.cancel)
-                )
-            }
-            .request { allGranted, grantedList, deniedList ->
-                if (allGranted) {
-                    function.invoke(true)
-                } else {
-                    function.invoke(false)
-                }
-            }
-    }
-
-    fun saveImage(image: Bitmap, name: String, function: (Boolean) -> Unit): String? {
-        var savedImagePath: String? = null
-        val imageFileName = "JPEG_$name.jpg"
-        val storageDir = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                .toString() + "/BeniDogApi"
-        )
-        var success = true
-        if (!storageDir.exists()) {
-            success = storageDir.mkdirs()
-        }
-        if (success) {
-            val imageFile = File(storageDir, imageFileName)
-            savedImagePath = imageFile.absolutePath
-
-            try {
-                val fOut: OutputStream = FileOutputStream(imageFile)
-                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
-                fOut.close()
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                function.invoke(false)
-            }
-
-            // Add the image to the system gallery
-            galleryAddPic(savedImagePath){
-                function.invoke(true)
-            }
-        }
-        return savedImagePath
-    }
-
-    private fun galleryAddPic(imagePath: String?, function: (Boolean) -> Unit) {
-        val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-        val f = File(imagePath)
-        val contentUri: Uri = Uri.fromFile(f)
-        mediaScanIntent.data = contentUri
-        function.invoke(true)
-    }
-
     interface AnimListener {
-        fun onAnimationEnd(p0: Animator?) {
+        fun onAnimationEnd(anim: Animator?) {
         }
     }
 }

@@ -14,7 +14,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="false">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -53,6 +53,21 @@
                 android:scaleType="fitCenter"
                 android:transitionName="@string/shared_element_item_pic"
                 app:imageUrl="@{dog.imageUrl}" />
+
+            <net.qiujuer.genius.ui.widget.Loading
+                android:id="@+id/progressLoad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="@dimen/len_64"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:gForegroundLineSize="@dimen/len_6"
+                app:gBackgroundColor="@color/white"
+                app:gBackgroundLineSize="@dimen/len_16"
+                app:gProgressStyle="circle"
+                app:gAutoRun="false"
+                />
 
         </com.google.android.material.card.MaterialCardView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

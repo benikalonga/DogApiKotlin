@@ -6,7 +6,8 @@
     <string name="loading">Loading ...</string>
     <string name="error">An error has occured</string>
 
-    <string name="save_error">This app is not authorized to save</string>
+    <string name="save_perm_error">This app is not authorized to save</string>
+    <string name="save_error">An error has occured while saving</string>
     <string name="save_success">Picture saved</string>
     <string name="save_title">Save the Picture</string>
     <string name="save_pos">Save</string>
