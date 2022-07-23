@@ -9,7 +9,7 @@
 Download apk file here [Dog Api Demo](apk/BeniDogApi.apk) 👍
 [<img src="files/ic_launcher.png" width="60">](apk/BeniDogApi.apk)
 
-https://user-images.githubusercontent.com/29547138/179636996-2dae3e40-5ceb-4336-9363-f3f5d334cab3.mp4
+https://user-images.githubusercontent.com/29547138/180583973-f8fce453-ed62-4029-b120-fae1c2725875.mp4
 
 # Depencies and Libraries
 [In the Build.gradle file](app/build.gradle)
